@@ -1,0 +1,5 @@
+import { Role } from "@prisma/client";
+import { requireUser } from "@/lib/auth";
+import { db } from "@/lib/db";
+import { fmtIls } from "@/lib/money";
+export default async function Archive(){await requireUser(Role.ADMIN);const [archived,audits]=await Promise.all([db.transaction.findMany({where:{archivedAt:{not:null}},orderBy:{archivedAt:"desc"}}),db.auditEvent.findMany({orderBy:{createdAt:"desc"},take:30,include:{actor:true}})]);return <div className="card"><h1>Audit archive</h1><h2>Archived records</h2><div className="ledger">{archived.map(t=><div className="entry" key={t.id}><span>{t.title} <span className="muted">· archived {t.archivedAt?.toLocaleDateString()}</span></span><strong>{fmtIls(t.ilsAmount)}</strong></div>)}{!archived.length&&<p className="muted">No archived transactions.</p>}</div><h2>Recent audit events</h2><div className="ledger">{audits.map(a=><div className="entry" key={a.id}><span>{a.action} {a.entityType} <span className="muted">by {a.actor?.email||"system"}</span></span><span className="muted">{a.createdAt.toLocaleString()}</span></div>)}</div></div>}

@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+}
+
+enum TransactionKind {
+  GAIN
+  EXPENSE
+}
+
+model User {
+  id String @id @default(cuid())
+  email String @unique
+  name String?
+  passwordHash String
+  role Role @default(EDITOR)
+  createdAt DateTime @default(now())
+  transactions Transaction[] @relation("CreatedTransactions")
+  audits AuditEvent[] @relation("AuditActor")
+}
+
+model Settings {
+  id Int @id @default(1)
+  fundingUrl String?
+  uploadRoot String @default("/app/uploads")
+  displayCurrency String @default("ILS")
+  updatedAt DateTime @updatedAt
+}
+
+model Transaction {
+  id String @id @default(cuid())
+  kind TransactionKind
+  title String
+  description String?
+  senderName String?
+  anonymous Boolean @default(false)
+  currency String
+  originalAmount Decimal @db.Decimal(14, 4)
+  ilsAmount Decimal @db.Decimal(14, 4)
+  fxRate Decimal @db.Decimal(18, 8)
+  fxSource String
+  fxCapturedAt DateTime
+  archivedAt DateTime?
+  archivedById String?
+  createdAt DateTime @default(now())
+  createdById String?
+  createdBy User? @relation("CreatedTransactions", fields: [createdById], references: [id], onDelete: SetNull)
+  items ExpenseItem[]
+  attachments Attachment[]
+  @@index([archivedAt, createdAt])
+}
+
+model ExpenseItem {
+  id String @id @default(cuid())
+  transactionId String
+  transaction Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  name String
+  description String?
+  link String?
+  quantity Decimal @db.Decimal(14, 4)
+  unitPrice Decimal @db.Decimal(14, 4)
+  currency String
+  fxRate Decimal @db.Decimal(18, 8)
+  ilsTotal Decimal @db.Decimal(14, 4)
+}
+
+model Attachment {
+  id String @id @default(cuid())
+  transactionId String
+  transaction Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  name String
+  path String @unique
+  mimeType String
+  kind String @default("receipt")
+  createdAt DateTime @default(now())
+}
+
+model AuditEvent {
+  id String @id @default(cuid())
+  actorId String?
+  actor User? @relation("AuditActor", fields: [actorId], references: [id])
+  action String
+  entityType String
+  entityId String
+  metadata Json?
+  createdAt DateTime @default(now())
+  @@index([createdAt])
+}
