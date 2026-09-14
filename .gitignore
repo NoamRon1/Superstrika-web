@@ -2,5 +2,9 @@ node_modules
 .pnpm-store
 .next
 .env
-uploads
+.DS_Store
+*.tsbuildinfo
+/uploads
+/output
+/tmp
 *.log
