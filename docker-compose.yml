@@ -11,7 +11,9 @@ services:
       FX_API_URL: ${FX_API_URL:-https://api.frankfurter.app/latest}
     volumes:
       - ${UPLOAD_PATH:-./uploads}:/app/uploads
-    depends_on: [db]
+    depends_on:
+      db:
+        condition: service_healthy
   db:
     image: postgres:16-alpine
     environment:
@@ -19,5 +21,10 @@ services:
       POSTGRES_USER: fundledger
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
     volumes: ["postgres_data:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fundledger -d fundledger"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
 volumes:
   postgres_data:
