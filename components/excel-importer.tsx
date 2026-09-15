@@ -119,7 +119,7 @@ export function ExcelImporter() {
   return (
     <form onSubmit={submit}>
       <label>
-        Order / expense name
+        Expense name
         <input value={title} onChange={event => setTitle(event.target.value)} required placeholder="e.g. Equipment order" />
       </label>
       <label>
@@ -158,9 +158,9 @@ export function ExcelImporter() {
         Receipt or source file
         <input type="file" accept=".pdf,.png,.jpg,.jpeg,.xlsx,.xls" onChange={event => setReceipt(event.target.files?.[0] || null)} />
       </label>
-      <p className="muted">The original workbook and any receipt or source file will be attached to the published expense.</p>
+      <p className="muted">Attached files are public.</p>
       {message && <p className={message.includes("saving") ? "notice" : "error"}>{message}</p>}
-      {sheets.length > 0 && <button className="button" disabled={saving}>{saving ? "Publishing import..." : "Review mapping and publish import"}</button>}
+      {sheets.length > 0 && <button className="button" disabled={saving}>{saving ? "Publishing import..." : "Publish import"}</button>}
     </form>
   );
 }

@@ -9,6 +9,8 @@ Self-hosted investor transparency dashboard and team ledger.
 3. Run `docker compose up --build` and open `http://localhost:3000`.
 4. Sign in using `INITIAL_ADMIN_EMAIL` and `INITIAL_ADMIN_PASSWORD`, then create editor accounts and configure the funding URL.
 
+The default database hostname, `db`, resolves inside the Docker Compose network. Run the app with `docker compose up --build`, not `pnpm dev` on the host, when using this configuration. Stop any host development server on port 3000 before starting the app container.
+
 The first container startup creates the PostgreSQL schema and the configured initial admin if it does not already exist.
 
 ## Backups
