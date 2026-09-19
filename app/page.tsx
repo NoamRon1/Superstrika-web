@@ -1,17 +1,141 @@
 import Link from "next/link";
 import Image from "next/image";
-import { db } from "@/lib/db";
-import { fmtIls } from "@/lib/money";
-export const dynamic = "force-dynamic";
-export default async function Home() {
-  const [settings, entries, totals] = await Promise.all([
-    db.settings.upsert({ where: { id: 1 }, update: {}, create: { id: 1 } }),
-    db.transaction.findMany({ where: { archivedAt: null }, orderBy: { createdAt: "desc" }, take: 50, include: { items: true } }),
-    db.transaction.groupBy({ by: ["kind"], where: { archivedAt: null }, _sum: { ilsAmount: true } })
-  ]);
-  const balance = totals.reduce((sum, item) => sum + (item.kind === "GAIN" ? Number(item._sum.ilsAmount || 0) : -Number(item._sum.ilsAmount || 0)), 0);
-  return <main className="container"><nav className="nav"><Link className="brand" href="/">Superstrika#7046</Link><Link className="button secondary" href="/login">Team login</Link></nav>
-    <header className="public-heading"><div><h1>Team fund</h1></div><div className="team-stamp"><Image className="team-logo" src="/brand/superstrika.jpeg" alt="Superstrika 7046 RoboCup team logo" width={70} height={70} priority /><span>RoboCup Junior</span></div></header>
-    <section className="fund-summary"><div className="balance-panel"><span className="eyebrow">Balance</span><div className="balance">{fmtIls(balance)}</div></div><div className="support-panel">{settings.fundingUrl ? <a className="button" href={settings.fundingUrl} target="_blank" rel="noreferrer">Support the team ↗</a> : <span className="notice">Contributions unavailable</span>}</div></section>
-    <section className="card section-card"><header className="section-heading"><div><h2>Activity</h2></div></header><div className="ledger">{entries.map(t => <Link className="entry public-entry" href={`/ledger/${t.id}`} key={t.id}><span className={`entry-symbol ${t.kind === "EXPENSE" ? "expense" : ""}`} aria-hidden="true">{t.kind === "GAIN" ? "+" : "−"}</span><div className="entry-copy"><h3>{t.kind === "GAIN" && t.anonymous ? "Anonymous supporter" : t.senderName || t.title}</h3><span className="muted">{new Intl.DateTimeFormat("en", { dateStyle: "medium" }).format(t.createdAt)} · {t.description || t.title}</span></div><div className="entry-amount"><strong style={{ color: t.kind === "GAIN" ? "var(--brand)" : "var(--red)" }}>{t.kind === "GAIN" ? "+" : "−"}{fmtIls(t.ilsAmount)}</strong><span className={`pill ${t.kind === "EXPENSE" ? "expense" : ""}`}>{t.kind === "GAIN" ? "CONTRIBUTION" : "EXPENSE"}</span></div><span className="entry-arrow muted" aria-hidden="true">↗</span></Link>)}{entries.length === 0 && <p className="empty-state">No entries yet.</p>}</div></section></main>;
+import { SiteHeader } from "@/components/site-header";
+import { siteContent } from "@/lib/site-content";
+
+export const metadata = {
+  title: "Superstrika#7046",
+  description: "קבוצת RoboCup Junior מהמועצה האזורית מנשה — הרובוט, הצוות והדרך להיות שותפים.",
+};
+
+export default function Home() {
+  return (
+    <div dir="rtl" lang="he" className="home">
+      <SiteHeader />
+      <main className="container">
+        <section id="about" className="home-section public-heading">
+          <div>
+            <span className="eyebrow">RoboCup Junior</span>
+            <h1>{siteContent.name}</h1>
+            <p>{siteContent.about}</p>
+          </div>
+        </section>
+
+        <section className="home-section card section-card">
+          <header className="section-heading">
+            <div>
+              <span className="eyebrow">התחרות</span>
+              <h2>{siteContent.tournament.name}</h2>
+            </div>
+          </header>
+          <p>{siteContent.tournament.description}</p>
+        </section>
+
+        <section id="robot" className="home-section section-card">
+          <header className="section-heading">
+            <div>
+              <span className="eyebrow">החומרה שלנו</span>
+              <h2>גרסאות הרובוט</h2>
+              <p>תצוגה תלת-ממדית של כל גרסת רובוט, כולל מה השתנה בדרך.</p>
+            </div>
+          </header>
+          <Link className="card robot-teaser-card" href="/robot">
+            <div>
+              <h3>לצפייה בכל הגרסאות ←</h3>
+              <p className="muted">מודלים תלת-ממדיים אינטראקטיביים של הרובוט, גרסה אחר גרסה.</p>
+            </div>
+          </Link>
+        </section>
+
+        <section id="sponsors" className="home-section section-card">
+          <header className="section-heading">
+            <div>
+              <span className="eyebrow">תודה מראש</span>
+              <h2>ספונסרים</h2>
+            </div>
+          </header>
+          {siteContent.sponsors.length === 0 ? (
+            <p className="empty-state">אנחנו עדיין מחפשים ספונסרים לעונה הזו — מעוניינים לתמוך בנו? נשמח לשמוע מכם.</p>
+          ) : (
+            <div className="sponsor-grid">
+              {siteContent.sponsors.map((sponsor) => (
+                <a key={sponsor.name} className="card sponsor-card" href={sponsor.href} target="_blank" rel="noreferrer">
+                  {sponsor.logo && <Image src={sponsor.logo} alt={sponsor.name} width={120} height={80} style={{ objectFit: "contain" }} />}
+                  <span>{sponsor.name}</span>
+                </a>
+              ))}
+            </div>
+          )}
+        </section>
+
+        <section id="team" className="home-section section-card">
+          <header className="section-heading">
+            <div>
+              <span className="eyebrow">מי אנחנו</span>
+              <h2>הצוות</h2>
+            </div>
+          </header>
+          <div className="team-grid">
+            {siteContent.team.map((member) => (
+              <div key={member.name} className="card team-card">
+                {member.photo ? (
+                  <Image className="team-card-photo" src={member.photo} alt={member.name} width={96} height={96} />
+                ) : (
+                  <div className="team-card-photo team-card-photo-placeholder" aria-hidden="true">{member.name.slice(0, 1)}</div>
+                )}
+                <h3>{member.name}</h3>
+                <span className="eyebrow">{member.role}</span>
+                <p className="muted">{member.bio}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section id="links" className="home-section section-card">
+          <header className="section-heading">
+            <div>
+              <span className="eyebrow">עקבו אחרינו</span>
+              <h2>קישורים</h2>
+            </div>
+          </header>
+          <div className="links-grid">
+            {siteContent.links.map((link) => (
+              <a key={link.label} className="card" href={link.href} target="_blank" rel="noreferrer">
+                <h3>{link.label}</h3>
+                <p className="muted">{link.description}</p>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        <section id="contact" className="home-section card contact-card">
+          <header className="section-heading">
+            <div>
+              <span className="eyebrow">נשמח לשמוע מכם</span>
+              <h2>צור קשר</h2>
+            </div>
+          </header>
+          <p>
+            <a href={`mailto:${siteContent.contact.email}`}>{siteContent.contact.email}</a>
+            {siteContent.contact.phone && <> · <span dir="ltr">{siteContent.contact.phone}</span></>}
+          </p>
+          {siteContent.contact.socials.length > 0 && (
+            <p className="muted">
+              {siteContent.contact.socials.map((social, i) => (
+                <span key={social.href}>
+                  {i > 0 && " · "}
+                  <a href={social.href} target="_blank" rel="noreferrer">{social.label}</a>
+                </span>
+              ))}
+            </p>
+          )}
+        </section>
+
+        <footer className="public-footer">
+          <span>{siteContent.name} · RoboCup Junior</span>
+          <span>המועצה האזורית מנשה</span>
+        </footer>
+      </main>
+    </div>
+  );
 }

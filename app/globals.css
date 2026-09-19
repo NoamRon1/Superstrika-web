@@ -14,3 +14,31 @@
 /* Compact layouts for the reduced page copy. */
 .public-heading{align-items:center;padding:8px 0 24px}.public-heading h1{font-size:clamp(38px,5vw,60px);margin:0}.team-stamp{padding:0}.fund-summary{grid-template-columns:minmax(0,1fr) auto;margin-bottom:36px}.support-panel{border-left:0;padding-left:24px}.balance-panel{padding:24px 0}.login-shell{display:grid;grid-template-columns:1fr}.login-form-area{min-height:100vh}.login-mark{margin-bottom:48px}.metric+.metric{display:flex;align-items:center}
 @media(max-width:800px){.public-heading{display:flex;gap:16px}.team-stamp{margin-top:0}.team-stamp>span{display:none}.fund-summary{grid-template-columns:1fr}.support-panel{padding:0 0 24px;border-top:0}.login-form-area{padding:40px 24px}.login-mark{margin-bottom:36px}}
+
+/* Home page + robot gallery */
+html{scroll-behavior:smooth}
+.home{background:var(--wash)}
+.home-nav{position:sticky;top:0;z-index:30;background:var(--paper);padding:0 40px;margin-bottom:0;flex-wrap:wrap;gap:16px 24px}
+.co-brand{display:inline-flex;align-items:center;gap:14px}
+.co-brand-divider{width:1px;height:32px;background:var(--line)}
+.co-brand img{border-radius:50%;object-fit:cover}
+.home-nav-links{display:flex;gap:22px;flex-wrap:wrap;font-size:13px}
+.home-nav-links a:hover{color:var(--brand)}
+.home-nav-actions{display:flex;gap:10px;align-items:center}
+.home-section{scroll-margin-top:96px;margin-bottom:56px}
+.robot-teaser-card{display:block;padding:32px;transition:background .15s,border-color .15s}
+.robot-teaser-card:hover{background:var(--brand-soft);border-color:var(--brand)}
+.sponsor-grid,.team-grid,.links-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.sponsor-card{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;justify-content:center;min-height:140px;transition:background .15s,border-color .15s}
+.sponsor-card:hover{background:var(--brand-soft);border-color:var(--brand)}
+.team-card{text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px}
+.team-card-photo{border-radius:50%;object-fit:cover;margin-bottom:8px}
+.team-card-photo-placeholder{width:96px;height:96px;display:grid;place-items:center;background:var(--brand-soft);color:var(--brand);font-size:32px;font-weight:600}
+.links-grid a.card{display:block;transition:background .15s,border-color .15s}
+.links-grid a.card:hover{background:var(--brand-soft);border-color:var(--brand)}
+.contact-card p{margin:0 0 8px}
+.robot-canvas{width:100%;min-height:60vh;border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);overflow:hidden;display:grid;place-items:center}
+.robot-canvas>div{width:100%!important;height:100%!important}
+.robot-changelog{white-space:pre-line;color:var(--muted);margin-top:20px}
+@media(max-width:800px){.home-nav{padding:0 16px}.home-nav-links{gap:14px;font-size:12px}.sponsor-grid,.team-grid,.links-grid{grid-template-columns:1fr 1fr}.robot-canvas{min-height:46vh}}
+@media(max-width:480px){.sponsor-grid,.team-grid,.links-grid{grid-template-columns:1fr}.home-nav-actions{width:100%;justify-content:flex-start}}
