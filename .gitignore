@@ -5,6 +5,7 @@ node_modules
 .DS_Store
 *.tsbuildinfo
 /uploads
+/robot-versions
 /output
 /tmp
 *.log
