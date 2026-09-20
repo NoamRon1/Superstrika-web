@@ -15,14 +15,16 @@ export const siteContent = {
     // Add sponsors: { name: "שם החברה", logo: "/sponsors/logo.png", href: "https://..." }
   ] as Sponsor[],
 
+  // Add a photo via "photo" (path under /public) and a github/linkedin url via "link" for each member.
   team: [
-    { name: "תומר עוזר", role: "תלמיד/ה — קפטן הנבחרת", bio: "כמה מילים על התלמיד/ה, תחומי עניין ותרומה לקבוצה." },
-    { name: "נועם רון", role: "תלמיד/ה — מתכנת ראשי", bio: "כמה מילים על התלמיד/ה, תחומי עניין ותרומה לקבוצה." },
-    { name: "איתמר חוטר ישי", role: "תלמיד/ה — מעצב מכני", bio: "כמה מילים על התלמיד/ה, תחומי עניין ותרומה לקבוצה." },
-    { name: "יואב אהרוני", role: "תלמיד/ה — מעצב מכני", bio: "כמה מילים על התלמיד/ה, תחומי עניין ותרומה לקבוצה." },
-    { name: "גל ארבל", role: "מנטור/ית ומורה מלווה", bio: "כמה מילים על המנטור/ית ועל הליווי של הקבוצה." },
+    { name: "תומר עוזר", role: "תלמיד/ה — קפטן הנבחרת" },
+    { name: "נועם רון", role: "תלמיד/ה — מתכנת ראשי" },
+    { name: "איתמר חוטר ישי", role: "תלמיד/ה — מעצב מכני" },
+    { name: "יואב אהרוני", role: "תלמיד/ה — מעצב מכני" },
+    { name: "גל ארבל", role: "מנטור/ית ומורה מלווה" },
   ] as TeamMember[],
 
+  // Logos are fetched automatically from each site; add "logo" (path under /public) to override with your own.
   links: [
     { label: "GitHub", href: "https://github.com/Superstrika/Superstrika-new", description: "קוד הרובוט" },
     { label: "OSHW Lab", href: "https://oshwlab.com/tomer_ozer/works", description: "הכרטיסים האלקטרונים שבנינו" },
@@ -55,8 +57,8 @@ export type GalleryItem =
 export type TeamMember = {
   name: string;
   role: string;
-  bio: string;
   photo?: string;
+  link?: string;
 };
 
 export type Sponsor = {
@@ -69,7 +71,16 @@ export type SiteLink = {
   label: string;
   href: string;
   description: string;
+  logo?: string;
 };
+
+export function faviconFor(href: string) {
+  try {
+    return `https://www.google.com/s2/favicons?sz=128&domain=${new URL(href).hostname}`;
+  } catch {
+    return null;
+  }
+}
 
 export type ContactInfo = {
   email: string;
