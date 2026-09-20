@@ -9,3 +9,5 @@ node_modules
 /output
 /tmp
 *.log
+
+.idea/
