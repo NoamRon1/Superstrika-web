@@ -9,5 +9,6 @@ node_modules
 /output
 /tmp
 *.log
+docker-compose.override.yml
 
 .idea/
