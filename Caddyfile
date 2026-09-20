@@ -1,0 +1,7 @@
+www.superstrika7046.com {
+	redir https://superstrika7046.com{uri} permanent
+}
+
+superstrika7046.com {
+	reverse_proxy app:3000
+}
