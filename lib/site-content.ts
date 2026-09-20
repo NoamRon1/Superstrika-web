@@ -17,7 +17,7 @@ export const siteContent = {
 
   // Add a photo via "photo" (path under /public) and a github/linkedin url via "link" for each member.
   team: [
-    { name: "תומר עוזר", role: "תלמיד/ה — קפטן הנבחרת" },
+    { name: "תומר עוזר", role: "תלמיד/ה — קפטן הנבחרת", photo: "./Tomer.jpg" },
     { name: "נועם רון", role: "תלמיד/ה — מתכנת ראשי" },
     { name: "איתמר חוטר ישי", role: "תלמיד/ה — מעצב מכני" },
     { name: "יואב אהרוני", role: "תלמיד/ה — מעצב מכני" },
