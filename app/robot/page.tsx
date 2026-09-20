@@ -14,33 +14,35 @@ export default async function RobotPage() {
   return (
     <div dir="rtl" lang="he" className="home">
       <SiteHeader />
-      <main className="container">
-        <header className="home-section public-heading">
-          <div>
+      <main>
+        <section className="home-band">
+          <div className="container">
             <span className="eyebrow">החומרה שלנו</span>
             <h1>גרסאות הרובוט</h1>
-            <p>כל גרסה של הרובוט שלנו, בתצוגה תלת-ממדית אינטראקטיבית, יחד עם מה שהשתנה מהגרסה הקודמת.</p>
+            <p className="lede">כל גרסה של הרובוט שלנו, בתצוגה תלת-ממדית אינטראקטיבית, יחד עם מה שהשתנה מהגרסה הקודמת.</p>
           </div>
-        </header>
+        </section>
 
         {versions.length === 0 && (
-          <p className="empty-state">עדיין אין גרסאות רובוט להצגה.</p>
+          <div className="container"><p className="empty-state">עדיין אין גרסאות רובוט להצגה.</p></div>
         )}
 
-        {versions.map((version) => (
-          <section key={version.slug} className="home-section card section-card">
-            <header className="section-heading">
-              <div>
-                <span className="eyebrow">{new Intl.DateTimeFormat("he").format(new Date(version.date))}</span>
-                <h2>{version.displayName}</h2>
-              </div>
-            </header>
-            {version.hasModel ? (
-              <RobotViewer modelUrl={`/api/robot-versions/${encodeURIComponent(version.slug)}/model.stl`} />
-            ) : (
-              <div className="robot-canvas"><p className="muted">המודל התלת-ממדי יתווסף בקרוב.</p></div>
-            )}
-            <p className="robot-changelog">{version.changelog}</p>
+        {versions.map((version, i) => (
+          <section key={version.slug} className={`home-band ${i % 2 === 0 ? "alt" : ""}`}>
+            <div className="container">
+              <header className="section-heading">
+                <div>
+                  <span className="eyebrow">{new Intl.DateTimeFormat("he").format(new Date(version.date))}</span>
+                  <h2>{version.displayName}</h2>
+                </div>
+              </header>
+              {version.hasModel ? (
+                <RobotViewer modelUrl={`/api/robot-versions/${encodeURIComponent(version.slug)}/model.stl`} />
+              ) : (
+                <div className="robot-canvas"><p className="muted">המודל התלת-ממדי יתווסף בקרוב.</p></div>
+              )}
+              <p className="robot-changelog">{version.changelog}</p>
+            </div>
           </section>
         ))}
       </main>
