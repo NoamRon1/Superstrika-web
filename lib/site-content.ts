@@ -17,10 +17,10 @@ export const siteContent = {
 
   // Add a photo via "photo" (path under /public) and a github/linkedin url via "link" for each member.
   team: [
-    { name: "תומר עוזר", role: "תלמיד/ה — קפטן הנבחרת", photo: "./Tomer.jpg" },
-    { name: "נועם רון", role: "תלמיד/ה — מתכנת ראשי" },
-    { name: "איתמר חוטר ישי", role: "תלמיד/ה — מעצב מכני" },
-    { name: "יואב אהרוני", role: "תלמיד/ה — מעצב מכני" },
+    { name: "תומר עוזר", role: "תלמיד/ה — אחראי אלקטרוניקה", photo: "/Tomer.jpg" },
+    { name: "נועם רון", role: "תלמיד/ה — אחראי תוכנה" },
+    { name: "איתמר חוטר ישי", role: "תלמיד/ה — אחראי מכניקה" },
+    { name: "יואב אהרוני", role: "תלמיד/ה — קפטן הנבחרת" },
     { name: "גל ארבל", role: "מנטור/ית ומורה מלווה" },
   ] as TeamMember[],
 
@@ -30,7 +30,6 @@ export const siteContent = {
     { label: "OSHW Lab", href: "https://oshwlab.com/tomer_ozer/works", description: "הכרטיסים האלקטרונים שבנינו" },
     { label: "אתר בית הספר", href: "https://gvanim-school.co.il/", description: "בית הספר גוונים - מ.א מנשה" },
     { label: "פוסטר התחרות", href: "https://example.com/poster.pdf", description: "פוסטר התחרות" },
-    { label: "תיקיית Drive", href: "https://drive.google.com/", description: "תיעוד, תמונות וקבצים נוספים" },
   ] as SiteLink[],
 
   contact: {
