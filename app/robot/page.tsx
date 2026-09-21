@@ -38,8 +38,13 @@ export default async function RobotPage() {
               </header>
               {version.hasModel ? (
                 <RobotViewer modelUrl={`/api/robot-versions/${encodeURIComponent(version.slug)}/model.stl`} />
+              ) : version.hasPhoto ? (
+                <div className="robot-canvas robot-canvas-photo">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={`/api/robot-versions/${encodeURIComponent(version.slug)}/photo`} alt={version.displayName} />
+                </div>
               ) : (
-                <div className="robot-canvas"><p className="muted">המודל התלת-ממדי יתווסף בקרוב.</p></div>
+                <div className="robot-canvas"><p className="muted">התמונה או המודל התלת-ממדי יתווספו בקרוב.</p></div>
               )}
               <p className="robot-changelog">{version.changelog}</p>
             </div>

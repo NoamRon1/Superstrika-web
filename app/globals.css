@@ -65,6 +65,7 @@ a.team-card:hover{border-color:var(--brand);transform:translateY(-2px)}
 .contact-card p{margin:0 0 8px}
 .robot-canvas{width:100%;min-height:60vh;border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);overflow:hidden;display:grid;place-items:center}
 .robot-canvas>div{width:100%!important;height:100%!important}
+.robot-canvas-photo img{width:100%;height:100%;object-fit:contain}
 .robot-changelog{white-space:pre-line;color:var(--muted);margin-top:20px}
 @media(max-width:800px){
   .home-nav{padding:0 16px}
