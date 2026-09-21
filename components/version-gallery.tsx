@@ -56,7 +56,19 @@ export function VersionGallery({ media, label }: { media: MediaItem[]; label: st
           <img src={item.url} alt={label} />
         )}
         {item.type === "video" && (
-          <video src={item.url} controls playsInline muted />
+          <video
+            src={item.url}
+            controls
+            playsInline
+            muted
+            onVolumeChange={(e) => {
+              const video = e.currentTarget;
+              if (!video.muted || video.volume !== 0) {
+                video.muted = true;
+                video.volume = 0;
+              }
+            }}
+          />
         )}
       </div>
 
