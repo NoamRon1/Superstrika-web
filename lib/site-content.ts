@@ -3,7 +3,7 @@ export const siteContent = {
   name: "Superstrika#7046",
   tagline: "רובוטיקה, פרויקטים, והאנשים שמאחוריהם.",
   about:
-    "Superstrika#7046 היא קבוצת RoboCup Junior מהמועצה האזורית מנשה. אנחנו בונים, לומדים ומתחרים יחד — ומאמינים בשקיפות מלאה סביב איך אנחנו ממומנים ולאן הכסף הולך.",
+    "Superstrika#7046 היא קבוצת RoboCup Junior מהמועצה האזורית מנשה.",
   tournament: {
     name: "RoboCup Junior Soccer — Open Weight",
     description:
@@ -17,11 +17,11 @@ export const siteContent = {
 
   // Add a photo via "photo" (path under /public) and a github/linkedin url via "link" for each member.
   team: [
-    { name: "תומר עוזר", role: "תלמיד/ה — אחראי אלקטרוניקה", photo: "/Tomer.jpg" },
-    { name: "נועם רון", role: "תלמיד/ה — אחראי תוכנה" },
-    { name: "איתמר חוטר ישי", role: "תלמיד/ה — אחראי מכניקה" },
-    { name: "יואב אהרוני", role: "תלמיד/ה — קפטן הנבחרת" },
-    { name: "גל ארבל", role: "מנטור/ית ומורה מלווה" },
+    { name: "תומר עוזר", role: "תלמיד/ה — אחראי אלקטרוניקה", photo: "/team/tomer.jpg" },
+    { name: "נועם רון", role: "תלמיד/ה — אחראי תוכנה", photo: "/team/noam.jpg"},
+    { name: "איתמר חוטר ישי", role: "תלמיד/ה — אחראי מכניקה", photo: "/team/itamar.jpg"},
+    { name: "יואב אהרוני", role: "תלמיד/ה — קפטן הנבחרת", photo: "/team/yoav.jpg"},
+    { name: "גל ארבל", role: "מנטור/ית ומורה מלווה", photo: "/team/gal.jpeg"},
   ] as TeamMember[],
 
   // Logos are fetched automatically from each site; add "logo" (path under /public) to override with your own.

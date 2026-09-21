@@ -60,7 +60,7 @@ export default function Home() {
           <div className="container">
             <header className="section-heading">
               <div>
-                <span className="eyebrow">תודה מראש</span>
+                <span className="eyebrow">תמיכה חיצונית</span>
                 <h2>ספונסרים</h2>
               </div>
             </header>

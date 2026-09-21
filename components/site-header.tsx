@@ -17,7 +17,7 @@ export function SiteHeader() {
         <Image className="team-logo" src="/brand/superstrika.jpeg" alt="סמל הקבוצה Superstrika#7046" width={68} height={68} priority />
         <span className="co-brand-name">Superstrika#7046</span>
         <span className="co-brand-divider" aria-hidden="true" />
-        <Image src="/brand/menashe-council.png" alt="סמל המועצה האזורית מנשה" width={52} height={52} />
+        <Image src="/brand/gvanim.jpg" alt="סמל המועצה האזורית מנשה" width={56} height={56} />
       </Link>
       <nav className="home-nav-links">
         {navLinks.map((link) => (
