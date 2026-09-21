@@ -17,8 +17,8 @@ export const siteContent = {
 
   // Add a photo via "photo" (path under /public) and a github/linkedin url via "link" for each member.
   team: [
-    { name: "תומר עוזר", role: "תלמיד/ה — אחראי אלקטרוניקה", photo: "/team/tomer.jpg" },
-    { name: "נועם רון", role: "תלמיד/ה — אחראי תוכנה", photo: "/team/noam.jpg"},
+    { name: "תומר עוזר", role: "תלמיד/ה — אחראי אלקטרוניקה", photo: "/team/tomer.jpg", link: "https://oshwlab.com/tomer_ozer/works"},
+    { name: "נועם רון", role: "תלמיד/ה — אחראי תוכנה", photo: "/team/noam.jpg", link: "github.com/NoamRon1"},
     { name: "איתמר חוטר ישי", role: "תלמיד/ה — אחראי מכניקה", photo: "/team/itamar.jpg"},
     { name: "יואב אהרוני", role: "תלמיד/ה — קפטן הנבחרת", photo: "/team/yoav.jpg"},
     { name: "גל ארבל", role: "מנטור/ית ומורה מלווה", photo: "/team/gal.jpeg"},
@@ -30,6 +30,7 @@ export const siteContent = {
     { label: "OSHW Lab", href: "https://oshwlab.com/tomer_ozer/works", description: "הכרטיסים האלקטרונים שבנינו" },
     { label: "אתר בית הספר", href: "https://gvanim-school.co.il/", description: "בית הספר גוונים - מ.א מנשה" },
     { label: "פוסטר התחרות", href: "https://example.com/poster.pdf", description: "פוסטר התחרות" },
+    { label: "Youtube", href: "https://www.youtube.com/@superstrika7046", description: "לסרטונים נוספים"}
   ] as SiteLink[],
 
   contact: {
@@ -37,7 +38,7 @@ export const siteContent = {
     phone: "+972 54 804 1428",
     socials: [
       {label: "Linkedin", href: "https://www.linkedin.com/in/super-strika-8b6349437/"},
-      {label: "Instagram", href: "https://www.instagram.com/"}
+      {label: "Whatsapp", href: "http://wa.me/972548041428"}
       // { label: "Instagram", href: "https://instagram.com/..." },
     ],
   } as ContactInfo,
