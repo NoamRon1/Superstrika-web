@@ -56,7 +56,7 @@ export function VersionGallery({ media, label }: { media: MediaItem[]; label: st
           <img src={item.url} alt={label} />
         )}
         {item.type === "video" && (
-          <video src={item.url} controls playsInline />
+          <video src={item.url} controls playsInline muted />
         )}
       </div>
 
