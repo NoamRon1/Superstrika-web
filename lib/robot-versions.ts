@@ -1,7 +1,14 @@
 import path from "path";
 import { readdir, readFile } from "fs/promises";
 
+const MODEL_EXTENSIONS = [".stl"];
 const IMAGE_EXTENSIONS = [".jpg", ".jpeg", ".png", ".webp", ".gif"];
+const VIDEO_EXTENSIONS = [".mp4", ".webm", ".mov", ".m4v"];
+
+export type MediaItem =
+  | { type: "model"; url: string }
+  | { type: "image"; url: string }
+  | { type: "video"; url: string };
 
 export type RobotVersion = {
   slug: string;
@@ -9,32 +16,30 @@ export type RobotVersion = {
   date: string;
   order: number;
   changelog: string;
-  hasModel: boolean;
-  hasPhoto: boolean;
+  media: MediaItem[];
 };
 
 export function robotVersionsDir() {
   return path.resolve(process.env.ROBOT_VERSIONS_DIR || "./robot-versions");
 }
 
-async function findFileByExt(dir: string, extensions: string[]) {
+function mediaTypeForExt(ext: string): MediaItem["type"] | null {
+  if (MODEL_EXTENSIONS.includes(ext)) return "model";
+  if (IMAGE_EXTENSIONS.includes(ext)) return "image";
+  if (VIDEO_EXTENSIONS.includes(ext)) return "video";
+  return null;
+}
+
+async function listMediaFiles(dir: string) {
   let files: string[] = [];
   try {
     files = await readdir(dir);
   } catch {
-    return null;
+    return [];
   }
-  const matches = files.filter((f) => extensions.includes(path.extname(f).toLowerCase())).sort((a, b) => a.localeCompare(b));
-  if (matches.length > 1) console.warn(`[robot-versions] multiple matching files (${extensions.join(", ")}) in ${dir}, using "${matches[0]}"`);
-  return matches[0] ?? null;
-}
-
-function findStlFile(dir: string) {
-  return findFileByExt(dir, [".stl"]);
-}
-
-function findImageFile(dir: string) {
-  return findFileByExt(dir, IMAGE_EXTENSIONS);
+  return files
+    .filter((f) => mediaTypeForExt(path.extname(f).toLowerCase()) !== null)
+    .sort((a, b) => a.localeCompare(b));
 }
 
 export async function getRobotVersions(): Promise<RobotVersion[]> {
@@ -60,38 +65,29 @@ export async function getRobotVersions(): Promise<RobotVersion[]> {
       console.warn(`[robot-versions] skipping "${slug}": info.json is missing required fields (displayName, date, order, changelog)`);
       continue;
     }
-    const [stlFile, imageFile] = await Promise.all([findStlFile(dir), findImageFile(dir)]);
-    versions.push({
-      slug,
-      displayName: info.displayName,
-      date: info.date,
-      order: info.order,
-      changelog: info.changelog,
-      hasModel: stlFile !== null,
-      hasPhoto: imageFile !== null,
-    });
+    const files = await listMediaFiles(dir);
+    const media: MediaItem[] = files.map((file) => ({
+      type: mediaTypeForExt(path.extname(file).toLowerCase())!,
+      url: `/api/robot-versions/${encodeURIComponent(slug)}/media/${encodeURIComponent(file)}`,
+    }));
+    versions.push({ slug, displayName: info.displayName, date: info.date, order: info.order, changelog: info.changelog, media });
   }
 
   return versions.sort((a, b) => a.order - b.order || a.date.localeCompare(b.date) || a.slug.localeCompare(b.slug));
 }
 
-function resolveVersionDir(slug: string) {
+export async function resolveMediaFile(slug: string, filename: string) {
+  if (!slug || slug === "." || slug === ".." || slug.includes("/") || slug.includes("\\")) return null;
+  if (!filename || filename.includes("/") || filename.includes("\\") || filename === "." || filename === "..") return null;
+  const ext = path.extname(filename).toLowerCase();
+  if (mediaTypeForExt(ext) === null) return null;
+
   const root = robotVersionsDir();
   const dir = path.join(root, slug);
   if (path.relative(root, dir).startsWith("..")) return null;
-  return dir;
-}
 
-export async function findStlFileForSlug(slug: string) {
-  const dir = resolveVersionDir(slug);
-  if (!dir) return null;
-  const file = await findStlFile(dir);
-  return file ? path.join(dir, file) : null;
-}
+  const filePath = path.join(dir, filename);
+  if (path.relative(dir, filePath).startsWith("..")) return null;
 
-export async function findImageFileForSlug(slug: string) {
-  const dir = resolveVersionDir(slug);
-  if (!dir) return null;
-  const file = await findImageFile(dir);
-  return file ? path.join(dir, file) : null;
+  return { filePath, ext };
 }

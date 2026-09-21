@@ -1,5 +1,5 @@
 import { SiteHeader } from "@/components/site-header";
-import { RobotViewer } from "@/components/robot-viewer";
+import { VersionGallery } from "@/components/version-gallery";
 import { getRobotVersions } from "@/lib/robot-versions";
 
 export const dynamic = "force-dynamic";
@@ -36,13 +36,8 @@ export default async function RobotPage() {
                   <h2>{version.displayName}</h2>
                 </div>
               </header>
-              {version.hasModel ? (
-                <RobotViewer modelUrl={`/api/robot-versions/${encodeURIComponent(version.slug)}/model.stl`} />
-              ) : version.hasPhoto ? (
-                <div className="robot-canvas robot-canvas-photo">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={`/api/robot-versions/${encodeURIComponent(version.slug)}/photo`} alt={version.displayName} />
-                </div>
+              {version.media.length > 0 ? (
+                <VersionGallery media={version.media} label={version.displayName} />
               ) : (
                 <div className="robot-canvas"><p className="muted">התמונה או המודל התלת-ממדי יתווספו בקרוב.</p></div>
               )}

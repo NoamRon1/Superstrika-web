@@ -39,18 +39,16 @@ class ModelErrorBoundary extends Component<{ children: ReactNode }, { failed: bo
 
 export function RobotViewer({ modelUrl }: { modelUrl: string }) {
   return (
-    <div className="robot-canvas">
-      <ModelErrorBoundary>
-        <Canvas camera={{ fov: 40 }}>
-          <ambientLight intensity={0.7} />
-          <directionalLight position={[5, 8, 5]} intensity={1.1} />
-          <directionalLight position={[-5, -3, -5]} intensity={0.35} />
-          <Suspense fallback={null}>
-            <Model url={modelUrl} />
-          </Suspense>
-          <OrbitControls makeDefault enableDamping />
-        </Canvas>
-      </ModelErrorBoundary>
-    </div>
+    <ModelErrorBoundary>
+      <Canvas camera={{ fov: 40 }}>
+        <ambientLight intensity={0.7} />
+        <directionalLight position={[5, 8, 5]} intensity={1.1} />
+        <directionalLight position={[-5, -3, -5]} intensity={0.35} />
+        <Suspense fallback={null}>
+          <Model url={modelUrl} />
+        </Suspense>
+        <OrbitControls makeDefault enableDamping />
+      </Canvas>
+    </ModelErrorBoundary>
   );
 }
