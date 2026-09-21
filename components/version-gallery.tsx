@@ -1,15 +1,54 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RobotViewer } from "@/components/robot-viewer";
 import type { MediaItem } from "@/lib/robot-versions";
 
+function loadImageRatio(url: string): Promise<number | null> {
+  return new Promise((resolve) => {
+    const img = new window.Image();
+    img.onload = () => resolve(img.naturalWidth / img.naturalHeight);
+    img.onerror = () => resolve(null);
+    img.src = url;
+  });
+}
+
+function loadVideoRatio(url: string): Promise<number | null> {
+  return new Promise((resolve) => {
+    const video = document.createElement("video");
+    video.preload = "metadata";
+    video.onloadedmetadata = () => resolve(video.videoWidth / video.videoHeight);
+    video.onerror = () => resolve(null);
+    video.src = url;
+  });
+}
+
 export function VersionGallery({ media, label }: { media: MediaItem[]; label: string }) {
   const [index, setIndex] = useState(0);
+  const [aspectRatio, setAspectRatio] = useState<number | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    Promise.all(
+      media.map((item) => {
+        if (item.type === "image") return loadImageRatio(item.url);
+        if (item.type === "video") return loadVideoRatio(item.url);
+        return Promise.resolve(null);
+      })
+    ).then((ratios) => {
+      if (cancelled) return;
+      const valid = ratios.filter((r): r is number => r !== null && Number.isFinite(r) && r > 0);
+      if (valid.length > 0) setAspectRatio(Math.max(...valid));
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [media]);
+
   const item = media[index];
 
   return (
-    <div className="robot-canvas">
+    <div className="robot-canvas" style={aspectRatio ? { height: "auto", aspectRatio: String(aspectRatio) } : undefined}>
       <div className="robot-canvas-media">
         {item.type === "model" && <RobotViewer modelUrl={item.url} />}
         {item.type === "image" && (

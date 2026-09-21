@@ -63,9 +63,9 @@ a.team-card:hover{border-color:var(--brand);transform:translateY(-2px)}
 .link-card h3{font-size:18px;margin-bottom:4px}
 
 .contact-card p{margin:0 0 8px}
-.robot-canvas{position:relative;width:100%;height:60vh;border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);overflow:hidden;display:grid;place-items:center}
-.robot-canvas-media{width:100%;height:100%;display:grid;place-items:center}
-.robot-canvas-media img,.robot-canvas-media video{width:100%;height:100%;object-fit:contain}
+.robot-canvas{position:relative;width:100%;height:60vh;min-height:280px;max-height:75vh;border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);overflow:hidden;display:grid;place-items:center}
+.robot-canvas-media{position:absolute;inset:0;display:grid;place-items:center}
+.robot-canvas-media img,.robot-canvas-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
 .gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:22px;line-height:1;cursor:pointer;display:grid;place-items:center;transition:background .15s,border-color .15s}
 .gallery-arrow:hover{background:var(--brand-soft);border-color:var(--brand)}
 .gallery-arrow-prev{right:16px}
