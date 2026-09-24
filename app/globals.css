@@ -73,8 +73,13 @@ a.team-card:hover{border-color:var(--brand);transform:translateY(-2px)}
 .gallery-counter{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);font:500 12px/1.5 ui-monospace,SFMono-Regular,monospace;letter-spacing:.07em;color:var(--muted);background:var(--paper);border:1px solid var(--line);border-radius:3px;padding:4px 10px}
 .robot-changelog{white-space:pre-line;color:var(--muted);margin-top:20px}
 @media(max-width:800px){
-  .home-nav{padding:0 16px}
-  .home-nav-links{gap:14px;font-size:12px}
+  .home-nav{padding:12px 16px}
+  .co-brand{order:1;gap:10px}
+  .home-nav-actions{order:2}
+  .home-nav-links{order:3;flex-basis:100%;gap:14px;font-size:12px}
+  .team-logo{width:48px;height:48px}
+  .co-brand img:not(.team-logo){width:40px;height:40px}
+  .co-brand-divider{height:32px}
   .home-band{padding:48px 0}
   .hero{flex-direction:column-reverse;text-align:center;gap:32px}
   .hero-mark img{width:150px;height:150px}
@@ -83,6 +88,5 @@ a.team-card:hover{border-color:var(--brand);transform:translateY(-2px)}
 }
 @media(max-width:480px){
   .sponsor-grid,.team-grid,.links-grid{grid-template-columns:1fr}
-  .home-nav-actions{width:100%;justify-content:flex-start}
   .co-brand-name{display:none}
 }
