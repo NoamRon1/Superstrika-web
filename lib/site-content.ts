@@ -29,7 +29,7 @@ export const siteContent = {
     { label: "GitHub", href: "https://github.com/Superstrika/Superstrika-new", description: "קוד הרובוט" },
     { label: "OSHW Lab", href: "https://oshwlab.com/tomer_ozer/works", description: "הכרטיסים האלקטרונים שבנינו" },
     { label: "אתר בית הספר", href: "https://gvanim-school.co.il/", description: "בית הספר גוונים - מ.א מנשה" },
-    { label: "פוסטר התחרות", href: "https://example.com/poster.pdf", description: "פוסטר התחרות" },
+    { label: "פוסטר התחרות", href: "https://canva.link/uu3wjxl87jdu86g", description: "פוסטר התחרות" },
     { label: "Youtube", href: "https://www.youtube.com/@superstrika7046", description: "לסרטונים נוספים"}
   ] as SiteLink[],
 
